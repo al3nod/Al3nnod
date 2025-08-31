@@ -805,11 +805,9 @@
         });
     </script>
 <script type="module">
-    // استدعاء الدوال من Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    // إعدادات Firebase نفسها مثل الموقع الإداري
     const firebaseConfig = {
       apiKey: "AIzaSyBTwrELTZ6QAjSkTX9MTwtxbAc86tHfuEQ",
       authDomain: "al3nod-828f5.firebaseapp.com",
@@ -820,23 +818,26 @@
       measurementId: "G-0GNTSJVBPF"
     };
 
-    // تهيئة Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // دالة لجلب البيانات من Firebase وعرضها
-    async function loadData() {
-        const docRef = doc(db, "exampleCollection", "exampleDoc"); // اسم المجموعة والمستند مثال
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            console.log("Data:", docSnap.data());
-            document.getElementById("display").innerText = JSON.stringify(docSnap.data());
-        }
+    async function displayProducts() {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        const list = document.getElementById("productsList");
+        list.innerHTML = ""; // تنظيف القائمة قبل العرض
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const item = document.createElement("div");
+            item.innerHTML = `<h3>${data.name}</h3><p>${data.description}</p><p>Price: ${data.price}</p>`;
+            list.appendChild(item);
+        });
     }
 
-    loadData();
+    displayProducts();
 </script>
 
-<div id="display"></div> <!-- هنا ستظهر البيانات --></body>
+<div id="productsList"></div>
+</body>
 
 </html>
+
