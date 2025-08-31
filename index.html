@@ -804,5 +804,39 @@
             }
         });
     </script>
-</body>
+<script type="module">
+    // استدعاء الدوال من Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // إعدادات Firebase نفسها مثل الموقع الإداري
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTwrELTZ6QAjSkTX9MTwtxbAc86tHfuEQ",
+      authDomain: "al3nod-828f5.firebaseapp.com",
+      projectId: "al3nod-828f5",
+      storageBucket: "al3nod-828f5.firebasestorage.app",
+      messagingSenderId: "965691650064",
+      appId: "1:965691650064:web:367041134869ab7259da95",
+      measurementId: "G-0GNTSJVBPF"
+    };
+
+    // تهيئة Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // دالة لجلب البيانات من Firebase وعرضها
+    async function loadData() {
+        const docRef = doc(db, "exampleCollection", "exampleDoc"); // اسم المجموعة والمستند مثال
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log("Data:", docSnap.data());
+            document.getElementById("display").innerText = JSON.stringify(docSnap.data());
+        }
+    }
+
+    loadData();
+</script>
+
+<div id="display"></div> <!-- هنا ستظهر البيانات --></body>
+
 </html>
