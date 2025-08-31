@@ -804,40 +804,43 @@
             }
         });
     </script>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+<body>
+    <div id="productsList"></div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBTwrELTZ6QAjSkTX9MTwtxbAc86tHfuEQ",
-      authDomain: "al3nod-828f5.firebaseapp.com",
-      projectId: "al3nod-828f5",
-      storageBucket: "al3nod-828f5.firebasestorage.app",
-      messagingSenderId: "965691650064",
-      appId: "1:965691650064:web:367041134869ab7259da95",
-      measurementId: "G-0GNTSJVBPF"
-    };
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        const firebaseConfig = {
+          apiKey: "AIzaSyBTwrELTZ6QAjSkTX9MTwtxbAc86tHfuEQ",
+          authDomain: "al3nod-828f5.firebaseapp.com",
+          projectId: "al3nod-828f5",
+          storageBucket: "al3nod-828f5.firebasestorage.app",
+          messagingSenderId: "965691650064",
+          appId: "1:965691650064:web:367041134869ab7259da95",
+          measurementId: "G-0GNTSJVBPF"
+        };
 
-    async function displayProducts() {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        const list = document.getElementById("productsList");
-        list.innerHTML = ""; // تنظيف القائمة قبل العرض
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const item = document.createElement("div");
-            item.innerHTML = `<h3>${data.name}</h3><p>${data.description}</p><p>Price: ${data.price}</p>`;
-            list.appendChild(item);
-        });
-    }
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    displayProducts();
-</script>
+        async function displayProducts() {
+            const querySnapshot = await getDocs(collection(db, "products"));
+            const list = document.getElementById("productsList");
+            list.innerHTML = "";
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                const item = document.createElement("div");
+                item.innerHTML = `<h3>${data.name}</h3><p>${data.description}</p><p>السعر: ${data.price}</p>`;
+                list.appendChild(item);
+            });
+        }
 
-<div id="productsList"></div>
+        displayProducts();
+    </script>
+</body>
 </body>
 
 </html>
+
 
